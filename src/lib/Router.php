@@ -2,7 +2,7 @@
 
 namespace app\lib;
 
-use app\lib\rest\Response;
+use app\lib\Response;
 
 class Router
 {

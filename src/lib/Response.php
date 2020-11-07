@@ -1,6 +1,6 @@
 <?php
 
-namespace app\lib\rest;
+namespace app\lib;
 
 abstract class Response {
 
@@ -45,10 +45,14 @@ abstract class Response {
     /**
      * @param array $response - response header data
      */
-    public static function sendResponse(array $response, $returnData, array $config = []){
+    public static function sendResponse(array $response, $returnData, array $config = ['returnFormat' => 'text']){
         header("{$_SERVER['SERVER_PROTOCOL']} {$response['status']} {$response['name']}");
 
-        echo json_encode($returnData);
+        switch ($config['returnFormat']) {
+            case 'json':
+                echo json_encode($returnData);
+                break;
+        }
 
         if ($config['stopService'] ?? true) die;
     }

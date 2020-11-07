@@ -3,6 +3,7 @@
 namespace app\lib\rest;
 
 use app\lib\Identity;
+use app\lib\Response;
 
 class Controller {
 
