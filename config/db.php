@@ -4,5 +4,5 @@ return [
     'dsn' => 'localhost',
     'user' => 'root',
     'password' => '',
-    'database' => 'mosyle'
+    'database' => 'TESTE_BIBLIOTECA'
 ];

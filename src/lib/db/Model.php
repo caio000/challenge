@@ -6,6 +6,19 @@ use PDO;
 
 class Model {
 
+    private function getFields(bool $withValues = false): array
+    {
+        if ($withValues){
+            return array_filter(get_object_vars($this), function ($key) {
+                return !in_array($key, $this->dontUpdate());
+            }, ARRAY_FILTER_USE_KEY);
+        } else {
+            return array_filter(array_keys(get_object_vars($this)), function ($value) {
+                return !in_array($value, $this->dontUpdate());
+            });
+        }
+    }
+
     protected static function tablename () {
         return basename(get_called_class());
     }
@@ -77,7 +90,7 @@ class Model {
      */
     public function save() : bool {
         $return = false;
-        $isInsert = (isset($this->id)) ? false : true;
+        $isInsert = (isset($this->id) && !empty($this->id)) ? false : true;
         $connection = Connection::getInstance();
 
         $this->beforeSave($return);
@@ -92,7 +105,7 @@ class Model {
         } else {
             $query = $this->buildUpdataQuery();
             $statement = $connection->prepare($query);
-            if ($statement && $statement->execute(get_object_vars($this))) {
+            if ($statement && $statement->execute($this->getFields(true))) {
                 $return  = true;
             }
         }
@@ -134,10 +147,9 @@ class Model {
 
     private function buildUpdataQuery() : string
     {
-        $data = get_object_vars($this);
         $data = array_map(function ($value) {
             return "{$value} = :{$value}";
-        }, array_keys($data));
+        }, $this->getFields());
         
         $query = "UPDATE " . self::tablename() . " SET ";
         $query .= implode(', ',$data);
@@ -157,5 +169,10 @@ class Model {
         foreach ($data as $key => $value) {
             $this->$key = $value;
         }
+    }
+
+    protected function dontUpdate(): array
+    {
+        return [];
     }
 }

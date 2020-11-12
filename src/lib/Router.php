@@ -19,6 +19,9 @@ class Router
     }
 
     private function setRouteSnapshot(array $route) : void {
+        if (strpos($route['url'], '?')) {
+            $route['url'] = substr($route['url'], 0, strpos($route['url'], '?'));
+        }
         $this->routeSnapshot = $route;
     }
 

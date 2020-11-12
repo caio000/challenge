@@ -6,7 +6,7 @@ abstract class Request {
 
     public static function post() {
         $data = file_get_contents('php://input');
-        return json_decode($data, true) ?? [];
+        return json_decode($data, true) ?? $_POST ?? [];
     }
 
     public static function get() {

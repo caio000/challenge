@@ -2,6 +2,7 @@
 
 namespace app\lib\web;
 
+use app\lib\helper\URL;
 use app\lib\Identity;
 use app\lib\Response;
 use Exception;
@@ -61,5 +62,17 @@ class Controller {
         if (!$user) {
             Response::sendResponse(Response::UNAUTHORIZED, Response::UNAUTHORIZED);
         }
+    }
+
+    /**
+     * Redirect to a specific route
+     * @param string Route
+     * for example, '/home' redirect to the 'home' route
+     */
+    public function redirectTo(string $route)
+    {
+        $url = URL::getBaseUrl() . $route;
+        header('Location:' . $url, true, 303);
+        die;
     }
 }
