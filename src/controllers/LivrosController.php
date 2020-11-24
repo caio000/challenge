@@ -19,7 +19,10 @@ class LivrosController extends Controller
     public function actionLista()
     {
         $filtros = Request::get();
-        $filtros['nome'] = '%'.$filtros['nome'].'%';
+
+        if (isset($filtros['nome'])) {
+            $filtros['nome'] = '%'. $filtros['nome'] .'%';
+        }
 
         // remove filtros vazios
         $filtros = array_filter($filtros, function ($filtro) {
@@ -94,8 +97,7 @@ class LivrosController extends Controller
 
             $route = (isset($livro->id) && !empty($livro->id)) ? "livro/editar/{$livro->id}" : "/livro/cadastrar";
         } catch (Exception $e) {
-            // Session::setFlash('error', 'Ocorreu um erro inesperado, tente novamente mais tarde!');
-            Session::setFlash('error', $e->getMessage());
+            Session::setFlash('error', 'Ocorreu um erro inesperado, tente novamente mais tarde!');
         } finally {
             $this->redirectTo($route);
         }

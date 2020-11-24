@@ -20,7 +20,8 @@ class Model {
     }
 
     protected static function tablename () {
-        return basename(get_called_class());
+        $class = explode('\\', get_called_class());
+        return array_pop($class);
     }
 
     public static function findAll() {
@@ -98,14 +99,16 @@ class Model {
         if ($isInsert) {
             $query = $this->buildInsertQuery();
             $statement = $connection->prepare($query);
-            if ($statement && $statement->execute(array_values(get_object_vars($this)))) {
+            if ($statement && $statement->execute(array_values($this->getFields(true)))) {
                 $this->id = $connection->lastInsertId();
                 $return = true;
             }
         } else {
             $query = $this->buildUpdataQuery();
             $statement = $connection->prepare($query);
-            if ($statement && $statement->execute($this->getFields(true))) {
+            $fields = $this->getFields(true);
+            $fields['id'] = $this->id;
+            if ($statement && $statement->execute($fields)) {
                 $return  = true;
             }
         }
@@ -132,10 +135,10 @@ class Model {
     protected function buildInsertQuery() : string {
         $data = get_object_vars($this);
 
-        $fields = array_keys($data);
+        $fields = $this->getFields();
         $values = array_map(function ($value) {
             return '?';
-        }, array_values($data));
+        }, $this->getFields(true));
 
         $query  = "INSERT INTO ";
         $query .= self::tablename();
@@ -171,7 +174,7 @@ class Model {
         }
     }
 
-    protected function dontUpdate(): array
+    protected static function dontUpdate(): array
     {
         return [];
     }

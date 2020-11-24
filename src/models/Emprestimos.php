@@ -55,10 +55,11 @@ class Emprestimos extends Model
      * esses dados
      * @return array
      */
-    protected function dontUpdate(): array
+    protected static function dontUpdate(): array
     {
 
         return [
+            'id',
             'criado_em',
             'alterado_em',
         ];

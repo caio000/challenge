@@ -11,6 +11,6 @@ class URL
      */
     public static function getBaseUrl (): string
     {
-        return 'http://' . $_SERVER['HTTP_HOST'];
+        return 'https://' . $_SERVER['HTTP_HOST'];
     }
 }

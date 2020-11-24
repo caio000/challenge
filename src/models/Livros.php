@@ -41,4 +41,13 @@ class Livros extends Model
 
         return $statement->fetchAll(PDO::FETCH_CLASS, get_called_class());
     }
+
+    protected static function dontUpdate(): array
+    {
+        return [
+            'id',
+            'criado_em',
+            'alterado_em',
+        ];
+    }
 }

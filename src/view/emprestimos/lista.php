@@ -39,7 +39,7 @@ use app\lib\web\Session;
                     <tr>
                         <td><?= ucwords($emprestimo->getUsuario()->nome) ?></td>
                         <td><?= ucwords($emprestimo->getLivro()->nome) ?></td>
-                        <td><?= (new DateTime($emprestimo->criado_em))->format('d/m/Y H:i:s') ?></td>
+                        <td><?= (new DateTime($emprestimo->criado_em, new DateTimeZone('America/Sao_Paulo')))->format('d/m/Y H:i:s') ?></td>
                         <td><a href="<?= "/emprestimo/devolver/{$emprestimo->id}" ?>">Devolver</a></td>
                     </tr>
                 <?php endforeach ?>

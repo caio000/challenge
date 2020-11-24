@@ -37,4 +37,13 @@ class Usuarios extends Model
 
         return $result;
     }
+
+    protected static function dontUpdate(): array
+    {
+        return [
+            'id',
+            'criado_em',
+            'alterado_em',
+        ];
+    }
 }

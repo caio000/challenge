@@ -100,7 +100,8 @@ class EmprestimosController extends Controller
         } catch (ValidateException $e) {
             Session::setFlash('error', $e->getMessage());
         } catch (Exception $e) {
-            Session::setFlash('error', 'Ocorreu um erro inesperado, tente novamente mais tarde!');
+            Session::setFlash('error', $e->getMessage());
+            // Session::setFlash('error', 'Ocorreu um erro inesperado, tente novamente mais tarde!');
         } finally {
             $this->redirectTo($route);
         }

@@ -4,11 +4,11 @@ namespace app\lib\db;
 
 class Query
 {
-    protected string $select;
+    protected $select;
 
-    protected string $from;
+    protected $from;
 
-    protected string $where;
+    protected $where;
 
     public function __construct()
     {

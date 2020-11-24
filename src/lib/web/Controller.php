@@ -11,7 +11,7 @@ class Controller {
 
 
     /** @var string filename the filename that contains the application default layout */
-    protected String $layout = 'index';
+    protected $layout = 'index';
 
 
     /**
