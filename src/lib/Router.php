@@ -3,6 +3,7 @@
 namespace app\lib;
 
 use app\lib\Response;
+use app\lib\web\Session;
 
 class Router
 {
@@ -12,6 +13,7 @@ class Router
 
     function __construct(array $route)
     {
+        Session::open();
         $this->setRoutes();
         $this->setRouteSnapshot($route);
         $route = $this->checkRoute();
